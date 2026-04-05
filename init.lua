@@ -58,28 +58,40 @@ require('lazy').setup({
     end,
   },
 
-  -- LSP Support
+-- LSP Support
   {
     'neovim/nvim-lspconfig',
-    dependencies = { 
-      'williamboman/mason.nvim', 
-      'williamboman/mason-lspconfig.nvim' 
-    },
+    dependencies = { 'williamboman/mason.nvim', 'williamboman/mason-lspconfig.nvim' },
     config = function()
       require('mason').setup()
       require('mason-lspconfig').setup({ ensure_installed = { 'clangd' } })
-      
-      local lspconfig = require('lspconfig')
-      lspconfig.clangd.setup({
-        capabilities = vim.lsp.protocol.make_client_capabilities(),
-        cmd = { 
-          "clangd", 
-          "--background-index", 
-          "--clang-tidy", 
-          "--completion-style=detailed",
-          "--header-insertion=never",
-        },
-      })
+
+      if vim.lsp.config then
+        vim.lsp.config('clangd', {
+          capabilities = vim.lsp.protocol.make_client_capabilities(),
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--completion-style=detailed",
+            "--header-insertion=never",
+          },
+        })
+        vim.lsp.enable('clangd')
+      else
+        -- Fallback for older versions
+        local lspconfig = require('lspconfig')
+        lspconfig.clangd.setup({
+          capabilities = vim.lsp.protocol.make_client_capabilities(),
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--completion-style=detailed",
+            "--header-insertion=never",
+          },
+        })
+      end
     end,
   },
 
