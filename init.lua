@@ -18,7 +18,7 @@ vim.opt.expandtab = true
 vim.keymap.set('i', '{<CR>', '{<CR>}<Esc>O', { noremap = true, silent = true })
 vim.o.showmode = false
 vim.o.updatetime = 250
-vim.o.timeoutlen = 400
+vim.o.timeoutlen = 300
 vim.o.scrolloff = 10
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
@@ -122,16 +122,15 @@ require('lazy').setup({
     end,
   },
 
-  -- Catppuccin Theme
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      require("catppuccin").setup({ flavour = "mocha" })
-      vim.cmd.colorscheme "catppuccin"
-    end,
-  },
+-- dracula theme
+{
+  "Mofiqul/dracula.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    vim.cmd[[colorscheme dracula]]
+  end,
+},
 
   -- File Explorer
   {
@@ -240,6 +239,10 @@ vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 vim.keymap.set('n', 'grr', builtin.lsp_references, { desc = '[G]oto [R]eferences' })
 vim.keymap.set('n', 'gri', builtin.lsp_implementations, { desc = '[G]oto [I]mplementation' })
 vim.keymap.set('n', 'grd', builtin.lsp_definitions, { desc = '[G]oto [D]efinition' })
+vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', { desc = 'New Tab' })
+vim.keymap.set('n', '<leader>tc', ':tabclose<CR>', { desc = 'Close Tab' })
+vim.keymap.set('n', 'L', ':tabnext<CR>', { desc = 'Next Tab' })
+vim.keymap.set('n', 'H', ':tabprev<CR>', { desc = 'Previous Tab' })
 -- ========================================================================== --
 -- 5. DIAGNOSTICS & APPEARANCE (NEOVIM 0.11+ VERSION)
 -- ========================================================================== --
